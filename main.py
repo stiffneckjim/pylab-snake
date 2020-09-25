@@ -34,11 +34,13 @@ class Game:
       print("Game height: {}".format(self.height))
       print("Game width:  {}".format(self.width))
 
-      border = '+' + '-'*self.width + '+'
-      print('   ' + border)
+      border_text = '+' + '-'*self.width + '+'
+
+      print('   ' + border_text)
       for row in range(self.height):
-        print("{0:2d} |{1}|".format(row, ''.join(self.board[row])))
-      print('   ' + border)
+        row_text = ''.join(self.board[row])
+        print(f"{row:2d} |{row_text}|")
+      print('   ' + border_text)
 
 game = Game(20, 30)
 game.render()
