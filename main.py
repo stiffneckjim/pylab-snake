@@ -23,9 +23,7 @@ class Game:
     def board_matrix(self):
       ''' A list of lists representing the game board
       '''
-      self.board = []
-      for i in range(0, self.height):
-        self.board.append(['.']*self.width)
+      self.board = [['.']*self.width for i in range(0, self.height)]
 
     def render(self):
       print("Game height: {}".format(self.height))
@@ -43,7 +41,4 @@ game = Game(20, 30)
 game.render()
 
 game = Game(20, 10)
-game.render()
-
-game = Game(10, 20)
 game.render()
