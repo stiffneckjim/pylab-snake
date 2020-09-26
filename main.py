@@ -18,12 +18,12 @@ class Game:
     def __init__(self, height, width):
         self.height = height
         self.width = width
-        self.board_matrix()
+        self.clear_board()
 
-    def board_matrix(self):
+    def clear_board(self):
       ''' A list of lists representing the game board
       '''
-      self.board = [['.']*self.width for i in range(0, self.height)]
+      self.board = [[' ']*self.width for i in range(0, self.height)]
 
     def render(self):
       print("Game height: {}".format(self.height))
@@ -32,7 +32,7 @@ class Game:
       border_text = '+' + '-'*self.width + '+'
 
       print('   ' + border_text)
-      for row in range(self.height):
+      for row in range(self. height):
         row_text = ''.join(self.board[row])
         print(f"{row:2d} |{row_text}|")
       print('   ' + border_text)
