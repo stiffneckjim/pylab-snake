@@ -24,11 +24,8 @@ class Game:
       ''' A list of lists representing the game board
       '''
       self.board = []
-      row = ['.']*self.width
-      i = 0
-      while i < self.height:
-        self.board.append(row)
-        i += 1
+      for i in range(0, self.height):
+        self.board.append(['.']*self.width)
 
     def render(self):
       print("Game height: {}".format(self.height))
