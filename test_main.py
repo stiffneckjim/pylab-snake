@@ -1,9 +1,10 @@
 import pytest
 import main
 
-def test_game_board():
-  test_game = main.Game(10, 10)
-  assert test_game.height == 10
-  assert test_game.width == 10
-  assert len(test_game.board) == 10
-  assert len(test_game.board[0]) == 10
+@pytest.mark.parametrize("height, width",[(10,10),(8,12)])
+def test_game_board(height, width):
+  test_game = main.Game(height, width)
+  assert test_game.height == height
+  assert test_game.width == width
+  assert len(test_game.board) == height
+  assert len(test_game.board[0]) == width
