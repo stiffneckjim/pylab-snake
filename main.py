@@ -6,8 +6,8 @@ Written with the good people of Women's Tech Hub Bristol's PyLAB.
 
 class Snake:
     "Our players avatar; a serpent."
-    def __init__(self):
-      self.vector = 
+#    def __init__(self):
+#      self.vector = 
 
 
 class Apple:
