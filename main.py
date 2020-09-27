@@ -32,7 +32,7 @@ class Game:
       border_text = '+' + '-'*self.width + '+'
 
       print('   ' + border_text)
-      for row in range(self. height):
+      for row in range(self.height-1, 0, -1):
         row_text = ''.join(self.board[row])
         print(f"{row:2d} |{row_text}|")
       print('   ' + border_text)
