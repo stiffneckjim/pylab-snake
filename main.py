@@ -6,8 +6,22 @@ Written with the good people of Women's Tech Hub Bristol's PyLAB.
 
 class Snake:
     "Our players avatar; a serpent."
-#    def __init__(self):
-#      self.vector = 
+    def __init__(self, start = (0,0)):
+      self.vectors = {
+        'UP': (0,1),
+        'DOWN': (0,-1),
+        'LEFT':(-1,0),
+        'RIGHT':(1,0)
+      }
+      self.location = [start]
+
+    def move(self, direction, speed):
+      vector_x, vector_y = self.vectors[direction]
+      loc_x, loc_y = self.location[0]
+      shift_x = vector_x * speed
+      shift_y = vector_y * speed
+      self.location.insert(0, (loc_x+shift_x, loc_y+shift_y))
+      self.location.pop()
 
 
 class Apple:
@@ -38,6 +52,7 @@ class Game:
         row_text = ''.join(self.board[row])
         print(f"{row:2d} |{row_text}|")
       print('   ' + border_text)
+
 
 game = Game(20, 30)
 game.render()
