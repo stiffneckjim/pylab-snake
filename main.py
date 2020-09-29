@@ -6,22 +6,33 @@ Written with the good people of Women's Tech Hub Bristol's PyLAB.
 
 class Snake:
     "Our players avatar; a serpent."
-    def __init__(self, start = (0,0)):
+    def __init__(self, start = (0,0), direction = 'UP'):
       self.vectors = {
         'UP': (0,1),
         'DOWN': (0,-1),
         'LEFT':(-1,0),
         'RIGHT':(1,0)
       }
+      self.set_velocity(1, direction)
       self.location = [start]
 
-    def move(self, direction, speed):
-      vector_x, vector_y = self.vectors[direction]
+    def set_velocity(self, speed=0, direction = ''):
+      if speed > 0:
+        self.speed = speed
+      
+      if direction in self.vectors:
+        vector_x, vector_y = self.vectors[direction]
+        shift_x = vector_x * self.speed
+        shift_y = vector_y * self.speed
+
+        self.velocity = (shift_x, shift_y)
+
+    def move(self, grow=False):
+      shift_x, shift_y = self.velocity
       loc_x, loc_y = self.location[0]
-      shift_x = vector_x * speed
-      shift_y = vector_y * speed
       self.location.insert(0, (loc_x+shift_x, loc_y+shift_y))
-      self.location.pop()
+      if grow==False:
+        self.location.pop()
 
 
 class Apple:
@@ -34,12 +45,7 @@ class Game:
     def __init__(self, height, width):
         self.height = height
         self.width = width
-        self.clear_board()
-
-    def clear_board(self):
-      ''' A list of lists representing the game board
-      '''
-      self.board = [[' ']*self.width for i in range(0, self.height)]
+        self.snake = Snake((round(height/2), round(width/2)), 'UP')
 
     def render(self):
       print("Game height: {}".format(self.height))
@@ -48,14 +54,20 @@ class Game:
       border_text = '+' + '-'*self.width + '+'
 
       print('   ' + border_text)
+      s_loc = self.snake.location
       for row in range(self.height-1, 0, -1):
-        row_text = ''.join(self.board[row])
+        row_text = ''
+        for col in range(self.width):
+          if (col,row) in s_loc:
+            row_text = row_text + '*'
+          else:
+            row_text = row_text + ' '
+
         print(f"{row:2d} |{row_text}|")
       print('   ' + border_text)
 
-
-game = Game(20, 30)
+game = Game(10, 10)
+snake = game.snake
 game.render()
-
-game = Game(20, 10)
+snake.move(grow=True)
 game.render()
