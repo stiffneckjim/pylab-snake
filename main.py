@@ -13,21 +13,14 @@ class Snake:
         'LEFT':(-1,0),
         'RIGHT':(1,0)
       }
-      self.set_velocity(1, direction)
       self.location = [start]
+      self.velocity = self.vectors[direction]
 
-    def set_velocity(self, speed=0, direction = ''):
-      if speed > 0:
-        self.speed = speed
-      
+    def move(self, grow=False, direction=''):
+      # Only change direction if one is provided
       if direction in self.vectors:
-        vector_x, vector_y = self.vectors[direction]
-        shift_x = vector_x * self.speed
-        shift_y = vector_y * self.speed
+        self.velocity = self.vectors[direction]
 
-        self.velocity = (shift_x, shift_y)
-
-    def move(self, grow=False):
       shift_x, shift_y = self.velocity
       loc_x, loc_y = self.location[0]
       self.location.insert(0, (loc_x+shift_x, loc_y+shift_y))
