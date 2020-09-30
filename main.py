@@ -2,7 +2,7 @@
 See here for the project outline: https://robertheaton.com/2018/12/02/programming-project-5-snake/
 Written with the good people of Women's Tech Hub Bristol's PyLAB.
 """
-
+import math
 
 class Snake:
     "Our players avatar; a serpent."
@@ -38,7 +38,7 @@ class Game:
     def __init__(self, height, width):
         self.height = height
         self.width = width
-        self.snake = Snake((round(height/2), round(width/2)), 'UP')
+        self.snake = Snake((math.floor(height/2), math.floor(width/2)), 'UP')
 
     def render(self):
       print("Game height: {}".format(self.height))
@@ -59,8 +59,15 @@ class Game:
         print(f"{row:2d} |{row_text}|")
       print('   ' + border_text)
 
-game = Game(10, 10)
+game = Game(15, 15)
 snake = game.snake
 game.render()
 snake.move(grow=True)
+snake.move(grow=True, direction='LEFT')
+snake.move(grow=True, direction='DOWN')
+snake.move(grow=True, direction='DOWN')
+snake.move(grow=True, direction='RIGHT')
+snake.move(grow=False, direction='RIGHT')
+snake.move(grow=True, direction='UP')
+snake.move(grow=True, direction='UP')
 game.render()
