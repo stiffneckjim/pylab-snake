@@ -2,7 +2,8 @@
 See here for the project outline: https://robertheaton.com/2018/12/02/programming-project-5-snake/
 Written with the good people of Women's Tech Hub Bristol's PyLAB.
 """
-import math
+from math import floor
+from collections import deque
 
 class Snake:
     "Our players avatar; a serpent."
@@ -13,19 +14,38 @@ class Snake:
         'LEFT':(-1,0),
         'RIGHT':(1,0)
       }
-      self.location = [start]
+      self.location = deque([start])
+      self.direction = direction
       self.velocity = self.vectors[direction]
 
     def move(self, grow=False, direction=''):
       # Only change direction if one is provided
       if direction in self.vectors:
         self.velocity = self.vectors[direction]
+        self.direction = direction
 
       shift_x, shift_y = self.velocity
       loc_x, loc_y = self.location[0]
-      self.location.insert(0, (loc_x+shift_x, loc_y+shift_y))
+      self.location.appendleft((loc_x+shift_x, loc_y+shift_y))
       if grow==False:
         self.location.pop()
+
+    def render(self, col, row):
+      snake_head = {
+        'UP':    '^',
+        'DOWN':  'v',
+        'LEFT':  '<',
+        'RIGHT': '>'
+      }
+      s_loc = self.location
+      if (col,row) in s_loc:
+        if s_loc[0] == (col,row):
+          return snake_head[self.direction]
+        else:
+          return 'O'
+      else:
+        return None
+
 
 
 class Apple:
@@ -38,7 +58,7 @@ class Game:
     def __init__(self, height, width):
         self.height = height
         self.width = width
-        self.snake = Snake((math.floor(height/2), math.floor(width/2)), 'UP')
+        self.snake = Snake((floor(height/2), floor(width/2)), 'UP')
 
     def render(self):
       print("Game height: {}".format(self.height))
@@ -51,10 +71,11 @@ class Game:
       for row in range(self.height-1, 0, -1):
         row_text = ''
         for col in range(self.width):
-          if (col,row) in s_loc:
-            row_text = row_text + '*'
-          else:
-            row_text = row_text + ' '
+          row_char = self.snake.render(col, row)
+          if row_char is None:
+            row_char = ' '
+
+          row_text = row_text + row_char
 
         print(f"{row:2d} |{row_text}|")
       print('   ' + border_text)
@@ -64,10 +85,13 @@ snake = game.snake
 game.render()
 snake.move(grow=True)
 snake.move(grow=True, direction='LEFT')
+game.render()
 snake.move(grow=True, direction='DOWN')
 snake.move(grow=True, direction='DOWN')
+game.render()
 snake.move(grow=True, direction='RIGHT')
 snake.move(grow=False, direction='RIGHT')
+game.render()
 snake.move(grow=True, direction='UP')
 snake.move(grow=True, direction='UP')
 game.render()
